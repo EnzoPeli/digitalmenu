@@ -7,7 +7,14 @@
     <v-app-bar app flat>
       <v-row no-gutters class="align-center">
         <v-col cols="2" class="text-left">
-          <v-img :src="logoForTheme" max-height="30" width="50" contain></v-img>
+          <v-img
+            :src="logoForTheme"
+            max-height="30"
+            width="50"
+            v-bind:class="{ corazon: latir }"
+            @click="latir = !latir"
+            contain
+          ></v-img>
         </v-col>
         <v-col cols="8">
           <v-text-field
@@ -72,14 +79,21 @@
               >
                 <v-chip class="ma-2" outlined pill color="red">
                   <v-img
-                    src="../assets/boca.png"
-                    max-height="20"
+                    :src="logoCategory"
+                    max-height="30"
                     contain
-                    style="width: 20px"
-                    class="mr-2"
+                    style="width: 25px"
+                    class="mr-10"
                   ></v-img>
 
                   {{ list.name }}
+                  <v-img
+                    :src="logoCategory"
+                    max-height="30"
+                    contain
+                    style="width: 25px"
+                    class="ml-10"
+                  ></v-img>
                 </v-chip>
               </div>
               <!-- product list area -->
@@ -114,8 +128,10 @@
                                   text--lighten-1
                                   pb-2
                                 "
+                                style="letter-spacing: 2px"
                               >
                                 {{ product.name }}
+                                <v-icon small>{{ product.icono }}</v-icon>
                               </div>
                             </v-col>
                             <v-col cols="3" sm="3">
@@ -149,6 +165,7 @@
                                       "
                                     >
                                       {{ subitem.name }}
+                                      <v-icon small>{{ subitem.icono }}</v-icon>
                                     </div>
                                   </v-col>
                                   <v-col cols="12" sm="12">
@@ -174,9 +191,10 @@
               </v-card>
             </div>
           </v-col>
+
           <!-- footer with menu area -->
           <v-col cols="12" sm="12">
-            <v-sheet min-height="50">
+            <v-sheet min-height="50" color="transparent">
               <v-footer color="" fixed elevation="0">
                 <div
                   style="overflow-x: auto; white-space: nowrap"
@@ -196,9 +214,32 @@
                     {{ list.name }}
                   </v-btn>
                 </div>
+
                 <v-col cols="12" sm="12" style="padding: 0%">
-                  <div class="caption red--text text--lighten-1 text-center">
-                    Todos los derechos reservados - ® by EnZo - 2021
+                  <div
+                    class="text--lighten-1 text-center"
+                    style="
+                      font-size: x-small;
+                      font-weight: bold;
+                      font-family: 'Times New Roman', Times, serif;
+                    "
+                  >
+                    <a
+                      href="https://www.instagram.com/dmartabar/"
+                      target="_blank"
+                      style="color: #cd5c5c"
+                    >
+                      <v-icon small>mdi-instagram</v-icon> dmartabar</a
+                    >
+                    | app by
+                    <a
+                      href="https://www.instagram.com/enzopeli/"
+                      target="_blank"
+                      style="color: #cd5c5c"
+                    >
+                      <v-icon small>mdi-instagram</v-icon> enzopeli</a
+                    >
+                    |© 2021
                   </div>
                 </v-col>
               </v-footer>
@@ -225,6 +266,8 @@ export default {
       darkmode: false,
       logoForTheme: "",
       LogoNoData: "",
+      logoCategory: "",
+      latir: false,
       productsComputed: [],
       productsLists: [
         {
@@ -322,6 +365,7 @@ export default {
                 "Papas, huevo, zapallito, berenjena, morrón, cebolla y perejil.",
               subitems: [],
               grupo: "Para picar",
+              icono: "mdi-leaf",
             },
             {
               name: "SALSA EXTRA",
@@ -346,6 +390,7 @@ export default {
                   name: "VEGETARIANA: ",
                   description:
                     "hamburguesa de lenteja, lechuga, tomate, rúcula, muzzarella, alioli.",
+                  icono: "mdi-leaf",
                 },
                 {
                   name: "CLÁSICA: ",
@@ -417,6 +462,7 @@ export default {
                 "Pan casero, berenjena, zapatillito, lechuga, tomate, rúcula y alioli.",
               subitems: [],
               grupo: "La Cocina de Marta",
+              icono: "mdi-leaf",
             },
             {
               name: "MILANESA CON PAPAS FRITAS",
@@ -1074,6 +1120,7 @@ export default {
     },
   },
   created() {
+    this.changeLogoTheme();
     this.productsComputed = this.productsLists;
 
     if (process.browser) {
@@ -1109,6 +1156,9 @@ export default {
     },
   },
   methods: {
+    top() {
+      window.scrollTo(0, 0);
+    },
     clearSearch() {
       this.search = "";
     },
@@ -1117,20 +1167,24 @@ export default {
       if (process.browser) {
         if (this.darkmode === true) {
           this.$vuetify.theme.dark = true;
-          this.logoForTheme = imageD;
+
           localStorage.setItem("DarkMode", true);
         } else if (this.darkmode === false) {
           this.$vuetify.theme.dark = false;
-          this.logoForTheme = imageW;
+
           localStorage.setItem("DarkMode", false);
         }
       }
     },
     changeLogoTheme() {
       if (this.$vuetify.theme.dark) {
+        this.logoForTheme = imageD;
         this.logoNoData = notFoundD;
+        this.logoCategory = imageD;
       } else {
         this.logoNoData = notFoundW;
+        this.logoForTheme = imageW;
+        this.logoCategory = imageW;
       }
     },
   },
@@ -1145,5 +1199,23 @@ a:link {
 }
 .inner-border::-webkit-scrollbar {
   display: none;
+}
+
+/* Animación con keyframe llamada "latidos" */
+@keyframes latidos {
+  from {
+    transform: none;
+  }
+  90% {
+    transform: scale(1.05);
+  }
+  to {
+    transform: none;
+  }
+}
+/* En la clase corazon vamos a llamar latidos en la animación  */
+.corazon {
+  animation: latidos 0.9s infinite;
+  transform-origin: center;
 }
 </style>

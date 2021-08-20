@@ -15,3 +15,9 @@ export default {
   }),
 };
 </script>
+<style lang="scss" scoped>
+.v-application {
+  font-family: "Antonio", sans-serif;
+  letter-spacing: 2px;
+}
+</style>
