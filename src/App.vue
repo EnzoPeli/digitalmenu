@@ -1,18 +1,30 @@
 <template>
   <v-app>
-    <!-- <v-app-bar app color="primary" dark> </v-app-bar> -->
+    <AppMenu />
 
-    <router-view />
+    <v-main>
+      <router-view />
+    </v-main>
+
+    <AppFooter />
   </v-app>
 </template>
 
 <script>
+import AppMenu from "./components/AppMenu.vue";
+import AppFooter from "./components/AppFooter.vue";
+
 export default {
   name: "App",
 
-  data: () => ({
-    //
-  }),
+  components: {
+    AppMenu,
+    AppFooter,
+  },
+
+  data() {
+    return {};
+  },
 };
 </script>
 <style lang="scss" scoped>
