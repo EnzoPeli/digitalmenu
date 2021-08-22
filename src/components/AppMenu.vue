@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app class="elevation-2 transparent">
+  <v-app-bar app height="56px" class="elevation-2">
     <v-row no-gutters class="align-center justify-center">
       <v-col cols="2" class="text-center">
         <v-img
